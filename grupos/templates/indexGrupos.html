@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block content %}
+<h2>¿Buscas un grupo?</h2>
+
+<form method="get" class="input-group mi-cuenta" id="filterStore">
+    <input class="form-control w-25" placeholder="Buscar un grupo" value="{{search}}" name="search" type="text">
+    <p>Estilo:</p>
+    <div class="lista-generos" id="listGenerosComp">
+        {% for c in generos %}
+        <label>
+        <input type="checkbox" name="generos" 
+            {% for id in genero_id %}             
+                {% if id|floatformat:"0" == c.id|floatformat:"0"  %} 
+                    checked 
+                {% endif%}  
+            {% endfor %} 
+            id="{{c.id}}" value="{{c.id}}"> {{c.title}}</label> {% endfor %}
+    </div>
+    <div class="ver-mas"><span><a href="#" id="verMas">Ver más</a></span></div>
+    <p>Provincia:</p>
+    <select name="provincia_id" class="">
+        <option value="">Sin selección</option>
+        {% for p in provincia  %}
+        <option    
+        {% if provincia_id|floatformat:"0" == p.id|floatformat:"0"  %} selected {% endif%}     
+        value="{{p.id}}">{{p.title}}</option>
+        
+        {% endfor %}
+    </select>
+
+    <button class="btn-blackDos" type="submit">Buscar</button>
+
+</form>
+{% if busqueda %}
+<h2 class="tituloh2">Resultados de la búsqueda:</h2>
+{% else %}
+<h2 class="tituloh2">Grupos</h2>
+{% endif %}
+
+<div class="listado-grupos">
+    {% for e in grupos|slice:":3" %}
+    <div class="ficha-grupo">
+        <div class="foto-grupo">
+            <a href="{% url 'grupos:detail' e.id %}">
+                    {% if e.avatar %}
+                    <img src="static/media/{{e.avatar}}" alt="Foto del grupo" title="Foto seleccionada por el grupo">
+                    {% else %}
+                    <!-- Imagen por defecto en caso de que no exista la imagen del producto -->
+                    <img src="static/img/your-music-grupo.svg" title="Imagen de grupo por defeto">
+                    {% endif %}
+            </a>
+        </div>
+    </div>
+    <div class="pie-grupos">
+        <p><span>{{e.nombre_profile}}</span> - {{e.generos.all|join:", " }} - {{e.provincia_origen}} - {{e.descripcion}} </p>
+    </div>
+
+
+
+    {% endfor %}
+    <!-- Paginación -->
+    {% if grupos|length == 0 %}
+    <p>No se han encontrado resultados</p>
+    {% else %} {% include "partials/pagination.html" with page_obj=grupos %} {% endif %}
+</div>
+
+{% endblock content %}

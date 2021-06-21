@@ -1,0 +1,44 @@
+{% extends "base_user_account.html" %} {% block content %}{% load static %}
+<script src="{% static 'js/user_data.js' %}"></script>
+<h2>Configuración de la cuenta</h2>
+<h3>Tus datos de acceso</h3>
+<p>{{usuario.username}}</p>
+<p> {{form.errors}}</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="datos-acceso">
+        <label>
+            <span>Nombre</span>
+            <input  name="nombre" class="form-control" type="text" value="{{usuario.username}}">   
+            <span style="color: red;">{{error.1}}</span>           
+            {% comment %}
+            {{form.username}}
+            {% endcomment %}
+        </label>
+        <label>
+            <span>Email</span>
+            <input name="email" id="email" type="email" class="form-control" value="{{usuario.email}}">          
+            <span style="color: red;">{{error.2}}</span>    
+            {% comment %}
+            {{form.email}}
+            {% endcomment %}
+        </label>
+        <label>Contraseña <input  name="password" class="form-control"  type="password" value=""><span style="color: red;">{{error.0}}</span></label>
+
+
+    </div>
+    <label><input type="checkbox" name="pass" id="pass"> Cambiar contraseña</label>
+    <div class="datos-acceso" id="datos-pass" hidden>
+
+        <label>Nueva contraseña <input id="pass1" name="pass1" class="form-control"  type="password" value=""></label>
+        <label>Confirmar contraseña <input id="pass2" name="pass2" class="form-control"  type="password" value=""></label>
+    </div>
+    <div><input class="btn btn-black" type="submit" value="Enviar" id="enviar"></div>
+</form>
+
+<!-- Apartado para dar de baja al usuario -->
+<div class="texto-reducido apartado-baja">
+<a href="{% url 'account:delete'  %}">¿Deseas dar de baja tu cuenta? Pulsa aquí.</a>
+<div>
+
+{% endblock %}

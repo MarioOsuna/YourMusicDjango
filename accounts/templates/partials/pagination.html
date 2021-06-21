@@ -1,0 +1,23 @@
+<div aria-label="Paginacion" class="paginacion-div">
+    <ul class="paginacion">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a>
+        </li> {% endif %} {% for i in page_obj.paginator.page_range %} {% if i == page_obj.number %}
+        <li class="page-item active">
+            {% comment %} <a class="page-link" href="#">{{i}}</a> {% endcomment %}
+            <span>{{i}}</span>
+        </li>
+
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{i}}">{{i}}</a>
+        </li>
+        {% endif %} {% endfor %} {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a>
+        </li>
+        {% endif %}
+
+    </ul>
+</div>

@@ -1,0 +1,13 @@
+{% extends "base_gral.html" %} {% block content %}
+<div class="principal">
+    <h2>Foro</h2>
+    <div class="foro-general">
+        {% for r in temas %}
+        <div class="foro-seccion">
+            <div class="foro-titulo"><a href="{% url 'foro:post' r.id %}">{{r.title}}</a></div>
+            <div class="foro-descripcion-seccion">{{r.descripcion}}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

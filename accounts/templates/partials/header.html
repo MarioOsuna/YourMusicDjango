@@ -1,0 +1,10 @@
+
+</head>
+
+<body> {% load static %}
+    <header>
+        <h1>YourMusic</h1>
+        <a href="{% url 'grupos:index' %}"><img src="{% static 'img/your-music-logo.svg' %}" /></a>
+    </header>
+    {% include "partials/menu.html" %}
+</body>

@@ -1,0 +1,38 @@
+{% extends "base_user_account.html" %} {% load static %}{% block content %}
+<script src="{% static 'js/mensajes.js' %}"></script>
+<h2>Conversación con {{otroUsuario}}</h2>
+<h3>{{canal.title}}</h3>
+
+{% for row in mensajes %}
+<div class="mensajes">
+    {% if row.emisor == usuario %}
+    <!-- Mensaje del usuario -->
+    <div class="mensajeUsuario">
+        <div class="mensaje">
+            <div class="texto-reducido">{{row.emisor}} - {{row.date_posted.day|stringformat:"02d"}}/{{row.date_posted.month|stringformat:"02d"}}/{{row.date_posted.year}} - {{row.date_posted.hour}}:{{row.date_posted.minute}} horas</div>
+            <div id="mensaje">{{row.text}}</div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Mensaje del otro usuario -->
+    <div class="mensajeOtro">
+        <div class="mensaje">
+            <div class="texto-reducido">{{row.emisor}} - {{row.date_posted}}</div>
+            <div id="mensaje">{{row.text}}</div>
+        </div>
+    </div> {% endif %}
+
+</div> {% endfor %} {% include "partials/pagination.html" with page_obj=mensajes %}
+<div class="formulario-mensajes">
+    <div class="titulo-noticia">Responder:</div>
+    <form method="post">
+        {% csrf_token %} {% if canal.title == 'conversation' %}
+        <div class="usuario-mensaje">Título:</div>
+        <div><input class="input-mensajes" type="text" placeholder="título" name="title" id="titMensaje"></div>
+        {% endif %}
+        <div class="usuario-mensaje">Mensaje:</div>
+        <div><textarea class="input-mensajes" name="text" placeholder="Mensaje para {{otroUsuario}}..." id="text" cols="30" rows="10"></textarea></div>
+        <div><input class="btn btn-black" type="submit" value="Enviar" id="enviarMensaje" /></div>
+    </form>
+</div>
+{% endblock %}

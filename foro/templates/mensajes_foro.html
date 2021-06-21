@@ -1,0 +1,33 @@
+{% extends "base_gral.html" %} {% block content %} {% load static %}
+<script src="{% static 'js/mensajes.js' %}"></script>
+<div class="principal">
+    <h2>{{post.title}}</h2>
+    <!-- TODO2: poner mensaje principal -->
+    <div class="post-inicial">
+        <div>{{post.descripcion}}</div>
+        <div class="post-detalles texto-reducido">{{post.autor_post}} - {{post.created_at.day|stringformat:"02d"}}/{{post.created_at.month|stringformat:"02d"}}/{{post.created_at.year}} - {{post.created_at.hour}}:{{post.created_at.minute}} horas</div>
+
+    </div>
+    {% for row in post.mensajes_post.all %}
+    <div class="mensajeUsuario">
+        <div class="mensaje">
+            <div class="texto-reducido">{{row.autor_mensaje}} - {{row.date_posted.day|stringformat:"02d"}}/{{row.date_posted.month|stringformat:"02d"}}/{{row.date_posted.year}} - {{row.date_posted.hour}}:{{row.date_posted.minute}} horas</div>
+            <div class="mensaje-titulo">{{row.title}}</div>
+            <div class="mensaje-descripcion">{{row.descripcion}}</div>
+        </div>
+    </div>
+    {% endfor %} {% include "partials/pagination.html" with page_obj=post %} {% if logueado %}
+    <div class="formulario-mensajes">
+        <div class="titulo-noticia">Añadir nueva respuesta:</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="usuario-mensaje">Título:</div>
+            <div><input class="input-mensajes" type="text" placeholder="Título respuesta" name="title" id="titMensaje"></div>
+            <div class="usuario-mensaje">Mensaje:</div>
+            <div><textarea class="input-mensajes" name="text" placeholder="Escribe aquí tu respuesta" id="text" cols="30" rows="10"></textarea></div>
+            <div><input class="btn btn-black" type="submit" value="Añadir" id="enviarMensaje" /></div>
+        </form>
+    </div>{% else %}
+    <div><a href="{% url 'login' %}"><button class="btn btn-black"  value="Login" >Login</button></a></div>
+
+    {% endif %} {% endblock %}

@@ -1,0 +1,12 @@
+<!-- Cabecera de la página -->
+{% include "partials/head.html" %} 
+{% include "partials/scripts_gral.html" %} 
+{% include "partials/header.html" %} 
+{% comment %} Página central {% endcomment %}
+    {% comment %} Título de sección {% endcomment %}
+    <div class="contenedor">
+        {% block content %} {% endblock content %}
+    </div>
+</body>
+{% include "partials/footer.html" %}
+</html>

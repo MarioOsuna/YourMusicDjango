@@ -1,0 +1,9 @@
+{% if form.errors %}
+<br> {% for field in form %} {% for errors in field.errors %}
+<br>
+<div class="alert alert-danger">
+    <strong> 
+        {{field.name}}:
+    </strong> {{errors}}
+</div>
+{% endfor %} {% endfor %} {% endif %}

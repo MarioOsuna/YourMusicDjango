@@ -1,0 +1,59 @@
+{% extends "base_user_account.html" %} {% block content %}
+<!-- Título de sección -->
+{% if tipo == "admin" %}
+
+<h2>Bienvenido Admin</h2>
+
+<h5>Si lo deseas entra al panel de administración y modifica los datos</h5>
+
+<a href="{% url 'admin:index' %}">Panel de administración</a> {% else %}
+
+
+<!-- Nombre de usuario -->
+<h3>Bienvenido {{usuario.user.username}}</h3>
+<!-- Nombre del grupo -->
+<h2>{{usuario}}</h2>
+
+<div class="mi-cuenta">
+    <a href="{% url 'account:user_data' usuario.user.id %}">
+        <button type="button" class="btn btn-black">
+            <div class="botones-distribucion">
+                <div><i class="fas fa-user"></i></div>
+                <div>Configuración de la cuenta</div>
+            </div>
+        </button>
+    </a>
+    <a href="{% url 'account:info_data' tipo %}">
+        <button type="button" class="btn btn-black">
+            {% if tipo == "musico" %}
+            <div class="botones-distribucion">
+                <div><i class="fas fa-guitar"></i></div>
+                <div>Información del grupo</div>
+            </div>
+            {% else %}
+            <div class="botones-distribucion">
+                <div><i class="fas fa-music"></i></div>
+                <div>Información del ojeador</div>
+            </div>
+            {% endif %}            
+        </button>
+    </a>
+    <a href="{% url 'account:noticias_user' %}">
+        <button type="button" class="btn btn-black">
+            <div class="botones-distribucion">
+                <div><i class="fas fa-newspaper"></i></div>
+                <div>Noticias</div>
+            </div>
+        </button>
+    </a>
+    <a href="{% url 'chat:allMessage'  %}">
+        <button type="button" class="btn btn-black">
+            <div class="botones-distribucion">
+                <div><i class="fas fa-comments"></i></div>
+                <div>Mensajes</div>
+            </div>
+        </button>
+    </a>
+
+</div>
+{% endif %} {% endblock content %}

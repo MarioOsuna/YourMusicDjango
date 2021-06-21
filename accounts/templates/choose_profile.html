@@ -1,0 +1,122 @@
+{% extends "base.html" %} {% load static %}{% block content %}
+<script src="{% static 'js/choose_profile.js' %}"></script>
+<!-- Título de sección -->
+<h2>Completa tu perfil</h2>
+<div class="principal">
+    <div class="wizzard-parrafo">{{userprofile}}, para poder completar tu usuario y disfrutar de la experiencia de usar <strong>Your Music</strong>, debes elegir tu perfil. Complétalo a través de este sencillo formulario.</div>
+    <form method="post" enctype="multipart/form-data" id="regForm">
+        {% csrf_token %}
+        <!-- One "tab" for each step in the form: -->
+        <div class="tab">
+            <div class="registro-botones">
+                <div>
+                    <input type="radio" id="grupo" name="tipoProfile" value="grupo" hidden checked>
+                    <label id="registro-grupo" for="grupo" class="registro-marcado">
+                    <i class="fas fa-guitar">GRUPO</i> 
+                </label>
+                </div>
+                <div>
+                    <input type="radio" id="ojeador" name="tipoProfile" value="ojeador" hidden>
+                    <label for="ojeador" id="registro-ojeador" class="registro">
+                    <i class="fas fa-music">OJEADOR</i> 
+                </label>
+                </div>
+            </div>
+            <div class="wizzard-parrafo" id="descripcionGrupo">
+                Si quieres que tu grupo se pueda dar a conocer crea ahora tu perfil como músico y habla con ojeadores, comunicate con tu audiencia mediante noticias, deja tus redes, música y vídeos en tu perfil.
+            </div>
+            <div class="descripcionWizzardOculto" id="descripcionOjeador">
+                Si buscas impulsar tu negocio o simplemente conocer la música que se mueve crea un perfil para comunicarte con grupos, clientes o audiencia. Además de poder facilitar la busqueda del sonido que deseas.
+            </div>
+        </div>
+
+        <div class="tab">
+            <div>
+                <h3 class="tituloh3">Información básica:</h3>
+            </div>
+            <div>
+                <div class="titulo-seccion-tab">Nombre:</div>
+                <div><input class="input-wizzard" type="text" name="nombre" placeholder="Nombre" id="nombre-grupo"></div>
+            </div>
+
+            <div hidden>
+                <div class="titulo-seccion-tab">Foto o logotipo:</div>
+                <div><input class="btn btn-black" id="inputFile1" name="inputFile" type="file" value="Cambiar imagen"></div>
+                <div class="foto-grupo foto-wizzard"><img id="img1"></div>
+            </div>
+
+            <div>
+                <div class="titulo-seccion-tab">Descripción:</div>
+                <div><textarea name="descripcion" placeholder="" id="descripcion" cols="38" rows="10" class="textarea-info"></textarea></div>
+            </div>
+
+            <!-- <div><input class="input-wizzard" type="file" name="avatar"></div> -->
+            <!-- <div><input class="input-wizzard" placeholder="Last name..." oninput="this.className = ''"></div> -->
+        </div>
+
+        <div class="tab">
+            <div>
+                <h3 class="tituloh3">Información necesaria para obtener búsquedas:</h3>
+            </div>
+
+            <div id="selec-tipo-ojeador">
+                <div class="titulo-seccion-tab">Tipo de ojeador</div>
+                <select name="TipoOjeador" id="TipoOjeador">
+                {% for row in tipos %}      
+                    <option value="{{row.id}}">{{row}}</option>
+                {% endfor %}
+                </select>
+            </div>
+
+            <div class="provincia">
+                <div class="titulo-seccion-tab">Provincia:</div>
+                <select name="provincia" id="provincia">
+                    {% for row in provincias %}      
+                        <option value="{{row.id}}">{{row}}</option>
+                    {% endfor %}
+                    </select>
+            </div>
+
+            <div class="estilos">
+                <div class="titulo-seccion-tab">Estilos musicales:</div>
+                <div class="lista-generos" id="listGenerosComp">
+                    {% for c in generos %}
+                    <label>
+                    <input type="checkbox" name="generos" 
+                        {% for id in genero_id %}             
+                            {% if id.id|floatformat:"0" == c.id|floatformat:"0"  %} 
+                                checked 
+                            {% endif%}  
+                        {% endfor %} 
+                        id="{{c.id}}" value="{{c.id}}"> {{c.title}}</label> {% endfor %}
+                </div>
+                <div class="ver-mas"><span><a href="#" id="verMas">Ver más</a></span></div>
+            </div>
+        </div>
+
+        <div class="tab">
+            <div>
+                <h3 class="tituloh3">Información de contacto:</h3>
+            </div>
+            <div><input class="input-wizzard" name="email" placeholder="E-mail" type="email"></div>
+
+        </div>
+
+        <div style="overflow:auto;">
+            <div class="botones-wizzard">
+                <button class="btn btn-black boton-wizzard" type="button" id="prevBtn">Anterior</button>
+                <button class="btn btn-black boton-wizzard" type="button" id="nextBtn">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+
+    </form>
+</div>
+{% endblock content %}

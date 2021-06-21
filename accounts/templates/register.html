@@ -1,0 +1,53 @@
+{% extends "base_user_account.html" %}{% load bootstrap %} {% block content %} {% load static %}
+<script src="{% static 'js/register.js' %}"></script>
+{% comment %}
+<div class="login login-form"> {% endcomment %}
+    <h2>Registro de usuario</h2>
+    <form method="post" action="{% url 'account:register' %}">
+        {% csrf_token %}
+        <!-- Formulario parte petición usuario -->
+        <div class="form-group">
+            <label class="control-label" for="id_username">Nombre de usuario</label>
+            <div class="form-inputs">
+                <input id="id_username" class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="">
+            </div>
+            <span style="color: red;">{{error.0}}</span>
+        </div>
+        <!-- Formulario parte petición email -->
+        <div class="form-group">
+            <label class="control-label" for="id_email">Email</label>
+            <div class="form-inputs">
+                <input id="id_email" class="form-control" type="email" name="email" autofocus="" autocapitalize="none" maxlength="150" required="">
+            </div>
+            <span style="color: red;">{{error.1}}</span>
+
+        </div>
+        <!-- Formulario parte petición email2 -->
+        <div class="form-group">
+            <label class="control-label" for="id_email2">Confirma tu email</label>
+            <div class="form-inputs">
+                <input id="id_email2" class="form-control" type="email" name="emailConfirm" autofocus="" autocapitalize="none" maxlength="150" required="">
+            </div>
+        </div>
+        <!-- Formulario parte petición contraseña -->
+        <div class="form-group">
+            <label class="control-label  " for="id_password">Contraseña</label>
+            <div class="form-inputs">
+                <input type="password" name="password" autocomplete="current-password" class=" form-control" required="" id="id_password">
+            </div>
+        </div>
+        <!-- Formulario parte petición contraseña2 -->
+        <div class="form-group">
+            <label class="control-label  " for="id_password2">Repite contraseña</label>
+            <div class="form-inputs">
+                <input type="password" name="passwordConfirm" autocomplete="current-password" class=" form-control" required="" id="id_password2">
+            </div>
+        </div>
+        <!-- Botón de Registrar -->
+        <div class="clearfix botones-login">
+            <input type="submit" value="Registrar" class="btn btn-black" id="bt_registrar">
+
+        </div>
+
+    </form>
+    {% endblock %}

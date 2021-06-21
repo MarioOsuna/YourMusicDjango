@@ -1,0 +1,145 @@
+{% extends "base_gral.html" %} {% load static %} {% block content %}
+<script src="{% static 'js/info_data.js' %}"></script>
+
+<form method="post" enctype="multipart/form-data" id="info">
+    {% csrf_token %}
+    <h2>{{usuario.nombre_profile}} <a href="#" class="edit" id="edit-nombre"><i class="fas fa-edit"></i></a></h2>
+    <div class="cabecera">
+        <input id="nombre-grupo" name="nombre" type="text" value="{{usuario.nombre_profile}}" hidden="true"> {% if usuario.avatar %}
+        <img id="iavatar" src="/static/media/{{usuario.avatar}}" class="foto-grupo" /> {% else %}
+        <img id="iavatar" src="/static/img/your-music-grupo.svg" class="foto-grupo" /> {% endif %}
+        <input class="btn btn-black" name="foto" type="file" value="Cambiar imagen">
+    </div>
+
+    <div class="estilos">
+        <div>
+            <h3>Géneros musicales</h3>
+        </div>
+        <div class="lista-generos" id="listGenerosComp">
+            {% for c in generos %}
+            <label>
+        <input type="checkbox" name="generos" 
+            {% for id in genero_id %}             
+                {% if id.id|floatformat:"0" == c.id|floatformat:"0"  %} 
+                    checked 
+                {% endif%}  
+            {% endfor %} 
+            id="{{c.id}}" value="{{c.id}}"> {{c.title}}</label> {% endfor %}
+        </div>
+        <div class="ver-mas"><span><a href="#" id="verMas">Ver más</a></span></div>
+    </div>
+    <div class="informacion">
+        <div>
+            <h3>Información</h3>
+        </div>
+        <div>
+            <textarea name="descripcion" id="" cols="30" rows="10" class="textarea-info">
+                 {{usuario.descripcion}}
+            </textarea>
+        </div>
+    </div>
+    <input type="submit" name="info" class="btn btn-black" value="Actualizar Información">
+
+    <div>
+        <h3 class="tituloh3">Redes Sociales</h3>
+    </div>
+    <div class="redes-sociales">
+        <div><i class="fab fa-twitter-square"></i></div>
+        {% if usuario.twitter %}
+        <div><input type="text" name="twitter" value="{{usuario.twitter}}" /></div>
+        {% else %}
+        <div><input type="text" name="twitter" value="" /></div>
+        {% endif %}
+        <div><i class="fab fa-instagram-square"></i></div>
+        {% if usuario.instagram %}
+        <div><input type="text" name="instagram" value="{{usuario.instagram}}" /></div>
+        {% else %}
+        <div><input type="text" name="instagram" value="" /></div>
+        {% endif %}
+        <div><i class="fab fa-facebook-square"></i></div>
+        {% if usuario.facebook %}
+        <div><input type="text" name="facebook" value="{{usuario.facebook}}" /></div>
+        {% else %}
+        <div><input type="text" name="facebook" value="" /></div>
+        {% endif %}
+        <div><i class="fas fa-link"></i></div>
+        {% if usuario.web %}
+        <div><input type="text" name="web" value="{{usuario.web}}" /></div>
+        {% else %}
+        <div><input type="text" name="web" value="" /></div>
+        {% endif %}
+        <div><i class="fas fa-envelope"></i></div>
+        {% if usuario.email_profile %}
+        <div><input type="text" name="email_profile" value="{{usuario.email_profile}}" /></div>
+        {% else %}
+        <div><input type="text" name="email_profile" value="" /></div>
+        {% endif %}
+
+
+    </div>
+    <input type="submit" class="btn btn-black" name="redes" value="Actualizar redes"> {% if tipo == "musico" %}
+    <div class="audios">
+        <h3 class="tituloh3">Audios</h3>
+        {% for row in audios %}
+        <div class="titulo-audios"><span>{{row.title}}</span></div>
+        <div class="audio-controller">
+            <div><audio controls src="/static/media/{{row.url_audio}}" class="audio-tag"></audio></div>
+
+            <div><a href="{% url 'account:info_data' tipo row.id 2 %}" class="btn btn-black"><i class="fas fa-trash-alt"></i></a></div>
+        </div>
+        {% endfor %}
+
+        <div><a class="btn btn-black" id="addAudios"><i class="fas fa-plus-square"></i> Añadir nuevo audio</a></div>
+        <!-- <div class="custom-file">
+            {% comment %} <label class="custom-file-label" for="customFile">Seleccionar archivo</label> {% endcomment %}
+        </div> -->
+        <div class="form-audio" id="form-audio" hidden="true">
+            <div><input type="file" id="sel-audio" name="filAudio" accept="audio/*" value="Seleccionar audio" class="btn btn-black"></div>
+            <div><input type="text" id="titulo-audio" name="titAudio" value="" placeholder="Título de la canción"></div>
+            <div><input type="submit" class="btn btn-black" name="audio" value="Guardar audio" id="save-audio"></div>
+        </div>
+
+    </div>
+    <div class="videos">
+        <div>
+            <h3 class="tituloh3">Videos</h3>
+        </div>
+        {% for v in videos %}
+        <div class="ficha-video">
+            <iframe class="videos-youtube" src="https://www.youtube.com/embed/{{v.url_video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div>
+                <div>{{v.title}}</div>
+                <a href="{% url 'account:info_data' tipo v.id 1 %}" class="btn btn-black"><i class="fas fa-trash-alt"></i></a></div>
+        </div>
+        {% endfor %}
+
+
+        <!--   <div class="ver-mas">Ver más</div> -->
+        <div><a class="btn btn-black" id="addVideos"><i class="fas fa-plus-square"></i> Añadir nuevo video</a></div>
+
+        <div class="form-video" id="form-video" hidden="true">
+            <div>Título:</div>
+            <div><input type="text" name="titVideo" /></div>
+            <div>Enlace:</div>
+            <div><input type="text" name="enlVideo" id="enlace-video" /></div>
+            <input id="guardar-video" type="submit" class="btn btn-black" name="video" value="Guardar video">
+        </div>
+
+    </div>
+    {% else %}
+
+    <div><span>Tipo de Ojeador</span></div>
+    <select name="tipos" id="tipos">
+    {% for row in tipos %}      
+    <option 
+    {% if row == tip %}
+    selected
+    {% endif %}    
+    value="{{row.id}}">        
+        {{row}}
+    </option>
+    {% endfor %}
+</select>
+    <input type="submit" name="ojeador" class="btn btn-black" value="Actualizar tipo">
+</form>
+{% endif %} {% endblock %}

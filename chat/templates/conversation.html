@@ -1,0 +1,53 @@
+{% extends "base_user_account.html" %} {% block content %}
+<div class="principal">
+    <h2>Bandeja de Entrada</h2>
+    {% comment %}
+    <p>{{usuario.username}}</p> {% endcomment %}
+    <div class="lista-mensajes">
+    {% for row in canales %} 
+        {% for r in row.usuarios.all %} 
+        {% if r != usuario %} 
+            {% if row.emisor == usuario %}
+                {% if row.eliminado_emisor != True %} 
+                    <div>
+                        <div class="info-mensaje">
+                            {% if row.leido_emisor %}
+                                <div class="status-mensaje"><i class="far fa-envelope-open"></i></div>
+                            {% else %}
+                                <div class="status-mensaje"><i class="fas fa-envelope"></i></div>
+                            {% endif %}
+                        
+                            <div class="titulo-mensaje"><a href="{% url 'chat:conversation' row.id %}">{{row.title}}</a></div>
+                        </div>
+                        <div class="info2-mensaje">    
+                            <div class="usuario-mensaje">{{r.userprofileojeadores}}{{r.userprofilemusicos}}</div>
+                            <div class="fecha-mensaje">{{row.updated_at.day|stringformat:"02d"}}/{{row.updated_at.month|stringformat:"02d"}}/{{row.updated_at.year}}</div>
+                        </div>
+                    </div>
+                    <div class="btn btn-black btn-conv"><a href="{% url 'chat:allMessage' row.id %}"><i class="fas fa-trash-alt"></i></a></div>
+                {% endif %}
+            {% else %} 
+                {% if row.eliminado_receptor != True %} 
+                    <div>
+                        <div class="info-mensaje">
+                            {% if row.leido_receptor %}
+                                <div class="status-mensaje"><i class="far fa-envelope-open"></i></div>
+                            {% else %}
+                                <div class="status-mensaje"><i class="fas fa-envelope"></i></div>
+                            {% endif %}
+                            <div class="titulo-mensaje"><a href="{% url 'chat:conversation' row.id %}">{{row.title}}</a></div>
+                        </div>
+                        <div class="info2-mensaje">    
+                            <div class="usuario-mensaje">{{r.userprofileojeadores}}{{r.userprofilemusicos}}</div>
+                            <div class="fecha-mensaje">{{row.updated_at.day|stringformat:"02d"}}/{{row.updated_at.month|stringformat:"02d"}}/{{row.updated_at.year}}</div>
+                        </div>
+                    </div>
+                    <div class="btn btn-black btn-conv"> <a href="{% url 'chat:allMessage' row.id %}"><i class="fas fa-trash-alt"></i></a></div>  
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

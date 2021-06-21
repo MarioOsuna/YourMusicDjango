@@ -1,0 +1,28 @@
+{% load static %}{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="autor" content="Mario Osuna y Manuel Hidalgo">
+    <title>YourMusic</title>
+</head>
+
+<body>
+    <header>
+        <!-- TODO_ANOTACIÓN: Cuando se suba al servidor tendremos que indicar la url del servidor para que muestre la foto -->
+
+        <h1>YourMusic</h1>
+
+    </header>
+</body>
+
+
+
+<h2>¡Bienvenido a Your Music {{dato}}!</h2>
+<p>Ya puedes iniciar sesión con tu nombre de usuario y contraseña, y elegir el tipo de perfil que deseas emplear en nuestra web. Puedes hacerlo mediante el enlace que te dejamos a continuación:</p>
+<!-- TODO_ANOTACIÓN: Cuando se suba al servidor tendremos que indicar la url del servidor para que el redireccionamiento funcione -->
+<a href="http://yourmusic.iesgrancapitan.org/{% url 'account:profile' %}">Rellenar perfil</a>
+<h6>Que disfrutes de nuestra app y te sea de gran ayuda y utilidad. Atentamente el equipo de Your Music</h6>
+{% endblock %}

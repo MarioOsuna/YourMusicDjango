@@ -1,0 +1,48 @@
+{% extends "base_user_account.html" %}{% load bootstrap %} {% block content %}
+<div class="login login-form">
+    <h2>Iniciar Sesión</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <!-- Formulario parte petición usuario -->
+        <div class="form-group">
+            <label class="control-label" for="id_username">Usuario</label>
+            <div class="form-inputs">
+                <input id="id_username" class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="">
+            </div>
+        </div>
+        <!-- Formulario parte petición contraseña -->
+        <div class="form-group">
+            <label class="control-label  " for="id_password">Contraseña</label>
+            <div class="form-inputs">
+                <input type="password" name="password" autocomplete="current-password" class=" form-control" required="" id="id_password">
+            </div>
+        </div>
+        <!-- Botón de Iniciar sesión -->
+        <div class="clearfix botones-login">
+            <input type="submit" value="Iniciar Sesión" class="btn btn-black">
+            <input type="hidden" name="next" value="{{ next }}">
+            <a href="{% url 'account:reset_password' %}" class="texto-reducido">¿Olvidaste tu contraseña?</a>
+        </div>
+        <!-- botones para implementarle las funcionalidades de Google y Facebook Auth-->
+        <!-- <div class="botones-autentificacion">
+            <p class="text-secondary">También puedes iniciar sesión con:</p>
+            <a href="{% url 'social:begin' 'google-oauth2' %}"><button type="button" class="btn btn-google">
+        <div class="botones-distribucion">
+            <div><i class="fab fa-google"></i></div>
+            <div>Entrar con Google</div>
+        </div>
+    </button></a>
+
+            <a href="{% url 'social:begin' 'facebook' %}"><button type="button" class="btn btn-facebook">
+        <div class="botones-distribucion">
+            <div><i class="fab fa-facebook-f"></i></div>
+            <div>Entrar con Facebook</div>
+        </div>
+    </button></a>
+        </div> -->
+        <p></p>
+            <a href="{% url 'account:register' %}" class="texto-reducido">¿Aún no estás registrado? ¡Registrate ahora!</a>
+    </form>
+
+</div>
+{% endblock %}

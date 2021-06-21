@@ -1,0 +1,115 @@
+{% extends "base_gral.html" %} {% load static %}{% block content %}
+<script src="{% static 'js/detail_grupo.js' %}"></script>
+<h2>{{grupo.nombre_profile}}</h2>
+<div class="cabecera">
+    {% if grupo.avatar %}
+    <img id="iavatar" class="foto-grupo" src="{{ STATIC_URL }}/static/media/{{grupo.avatar}}" alt="Foto del grupo" title="Foto seleccionada por el grupo"> {% else %}
+    <!-- Imagen por defecto en caso de que no exista la imagen del producto -->
+    <img id="iavatar" class="foto-grupo" src="{% static '/img/your-music-grupo.svg' %}" title="Imagen de grupo por defeto"> {% endif %}
+    <a href="{% url 'chat:contactar' pk 'grupo' %}">
+        <input class="btn btn-black" type="submit" value="Contactar">
+    </a>
+</div>
+<div class="estilos">
+    <div>
+        <h3>Géneros musicales</h3>
+    </div>
+    {% for genero in generos %}
+    <div>{{genero}}</div> {% endfor %}
+</div>
+<div class="informacion">
+    <div>
+        <h3>Información</h3>
+    </div>
+    <div>{{grupo.descripcion}}</div>
+    <div class="provincia"><span>Provincia:</span> {{grupo.provincia_origen}}</div>
+</div>
+<div>
+    <h3 class="tituloh3">Redes Sociales</h3>
+</div>
+<div class="redes-sociales">
+    {% if grupo.twitter %}
+    <div><i class="fab fa-twitter-square"></i></div>
+    <div>{{grupo.twitter}}</div>
+    {% endif %} {% if grupo.instagram %}
+    <div><i class="fab fa-instagram-square"></i></div>
+    <div><a href="{{grupo.instagram}}">{{grupo.instagram}}</a></div>
+    {% endif %} {% if grupo.facebook %}
+    <div><i class="fab fa-facebook-square"></i></div>
+    <div><a href="{{grupo.facebook}}" target="_blank">{{grupo.facebook}}</a></div>
+
+    {% endif %} {% if grupo.web %}
+    <div><i class="fas fa-link"></i></div>
+    <div><a href="{{grupo.web}}" target="_blank">{{grupo.web}}</a></div>
+
+    {% endif %} {% if grupo.email_profile %}
+    <div><i class="fas fa-envelope"></i></div>
+    <div><a href="mailto:{{grupo.email_profile}}">{{grupo.email_profile}}</a></div>
+    {% endif %}
+</div>
+{% if audios %}
+<div class="audios">
+    <div>
+        <h3 class="tituloh3">Audios</h3>
+    </div>
+    <div id="lista-audios">
+        {% for row in audios %}
+        <div>
+            <div>{{row.title}}</div>
+            <audio controls src="/static/media/{{row.url_audio}}"></audio>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- TODO2 Si hay sólo 3 audios o menos no debe mostrarse (hidden),
+            si no se pone directamente saltan errores en consola al faltarel id.-->
+    <!-- TODO: Respecto al TODO2 anterior no entiendo exactamente a que te refieres -->
+    <!-- TODO2: Se trataría de ocultar este campo, según si hay más cosas que mostrar o no -->
+    <div class="ver-mas"><span><a href="#" id="verMasAudios">Ver más</a></span></div>
+</div>
+{% else %}
+<div id="lista-audios"></div>
+<div id="verMasAudios"></div>
+
+{% endif %} {% if videos %}
+<div class="videos">
+    <div>
+        <h3 class="tituloh3">Videos</h3>
+    </div>
+
+    <div id="lista-videos">
+        {% for v in videos %}
+        <div class="ficha-video">
+            <iframe class="videos-youtube" src="https://www.youtube.com/embed/{{v.url_video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div>{{v.title}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- TODO2 Si hay sólo 3 vídeos o menos no debe mostrarse (hidden),
+    si no se pone directamente saltan errores en consola al faltarel id.-->
+    <div class="ver-mas"><span><a href="#" id="verMasVideos">Ver más</a></span></div>
+
+</div>
+{% else %}
+<div id="lista-videos"></div>
+<div id="verMasVideos"></div>
+{% endif %} {% if noticias %}
+<div class="noticias-grupo">
+    <div>
+        <h3>Últimas noticias</h3>
+    </div>
+    <div id="lista-noticias">
+        {% for n in noticias %}
+        <div class="noticia-extracto">
+            <div class="titulo-noticia">{{n.title}}</div>
+            <div class="noticia-entradilla">{{n.descripcion}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- TODO2 Si hay sólo 3 vídeos o menos no debe mostrarse (hidden),
+    si no se pone directamente saltan errores en consola al faltarel id.-->
+    <div class="ver-mas"><span><a href="#" id="verMasNoticias">Ver más</a></span></div>
+</div>
+{% else %}
+<div id="lista-noticias"></div>
+<div id="verMasNoticias"></div>
+{% endif %} {% endblock %}

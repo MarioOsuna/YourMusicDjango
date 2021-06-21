@@ -1,0 +1,22 @@
+{% extends "base_user_account.html" %} {% block content %} {% load static %}
+<script src="{% static 'js/delete_user.js' %}"></script>
+<h2>Eliminar cuenta de usuario</h2>
+
+<form method="post" action="{% url 'account:delete'  %}" id="formBaja">
+    {% csrf_token %}
+
+    <div class="texto-justificado">
+        <div>No nos gustaría perderte como miembro de <strong>Your Music</strong>, si finalmente fuese así deberías saber lo siguiente:</div>
+        <ul>
+            <li>No podrás ponerte en contacto mediante la plataforma con ojeadores y grupos.</li>
+            <li>Tus mensajes en el foro permanecerán visibles, sólo que en vez de tu nombre aparecerá "Usuario eliminado".</li>
+            <li>Toda la información adicional que aparece en la web será eliminada y no podrá recuperarse más adelante.</li>
+        </ul>
+        <div class="dar-de-baja">
+            <div>Confirma tu contraseña y usuario si estás seguro de tu decisión.</div>
+            <label class="texto-reducido">Usuario <input  name="name" class="form-control"  type="text" value=""><span class="error-baja">{{error.1}}</span></label>
+            <label class="texto-reducido">Contraseña <input  name="password" class="form-control"  type="password" value=""><span class="error-baja">{{error.0}}</span></label>
+            <div><input class="btn btn-black" type="button" value="Dar de baja" id="baja"></div>
+        </div>
+</form>
+{% endblock %}

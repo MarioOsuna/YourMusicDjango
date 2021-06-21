@@ -1,0 +1,12 @@
+{% extends "base_gral.html" %} {% block content %}
+<div class="principal">
+<h2>{{noticia.title}}</h2>
+<div class="noticia-extendida">{{noticia.descripcion}}</div>
+<div class="pie-noticia">
+{% if noticia.usuario.userprofilemusicos %}
+<div><a href="{% url 'grupos:detail' noticia.usuario.userprofilemusicos.id %}">{{noticia.usuario.userprofilemusicos}}</a></div> {% else %}
+<div><a href="{% url 'ojeador:detail_ojeador' noticia.usuario.userprofileojeadores.id %}">{{noticia.usuario.userprofileojeadores}}</a></div> {% endif %}
+<small>{{noticia.updated_at}}</small> 
+</div>
+</div>
+{% endblock %}

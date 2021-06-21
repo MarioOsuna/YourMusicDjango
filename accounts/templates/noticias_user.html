@@ -1,0 +1,32 @@
+{% extends "base_gral.html" %} {% block content %}
+<h2>Noticias</h2>
+<div class="alta-noticia">
+    <h3 class="tituloh3">Insertar nueva noticia</h3>
+    <form method="post" action="{% url 'account:noticias_user' %}">
+        {% csrf_token %}
+        <label>
+            <div class="titulo-noticia">Título:</div>
+            <div><input class="input-wizzard" type="text" name="titulo" value="{{noticiaMod.title}}"/></div>
+        </label>
+        <label>
+            <div class="titulo-noticia">Noticia:</div>
+            <div><textarea name="noticia" id="" cols="30" rows="10" class="textarea-info">{{noticiaMod.descripcion}}
+            </textarea></div>
+        </label>
+        <input type="text" hidden name="id" value="{{noticiaMod.id}}">
+        <input class="btn btn-black" type="submit" value="Enviar">
+    </form>
+</div>
+<div class="listado">
+    <h3 class="tituloh3">Listado de noticias anteriores</h3>
+    {% for row in noticias %}
+    <div class="noticia-titulo">
+        <div><a href="{% url 'noticias:noticia'  row.id %}" class="noticia-enlace">{{row.title}}</a></div>
+        <div><a href="{% url 'account:noticias_user' 'editar' row.id %}" class="noticia-enlace"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'account:noticias_user' 'borrar' row.id %}" class="noticia-enlace"> <i class="fas fa-trash-alt"></i></a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

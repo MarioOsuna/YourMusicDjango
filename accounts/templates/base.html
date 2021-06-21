@@ -1,0 +1,14 @@
+ {% comment %} Cabecera de la página {% endcomment %} 
+ {% include "partials/head.html" %} 
+ {% include "partials/scripts_form.html" %} 
+ {% include "partials/header.html" %} 
+<div class="contenedor">
+    <!-- <h2>¿Buscas un grupo?</h2> -->
+    {% comment %} <div class="principal"> {% endcomment %}
+        {% block content %} {% endblock content %}
+    {% comment %} </div> {% endcomment %}
+</div>
+</body>
+{% include "partials/footer.html" %}
+
+</html>

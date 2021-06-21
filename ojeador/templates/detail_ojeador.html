@@ -1,0 +1,72 @@
+{% extends "base_gral.html" %} {% load static %}{% block content %}
+<script src="{% static 'js/detail_ojeador.js' %}"></script>
+<h2>{{ojeador.nombre_profile}}</h2>
+<div class="cabecera">
+    {% if ojeador.avatar %}
+    <img id="iavatar" class="foto-grupo" src="{{ STATIC_URL }}/static/media/{{ojeador.avatar}}" alt="Foto del ojeador" title="Foto seleccionada por el ojeador"> {% else %}
+    <!-- Imagen por defecto en caso de que no exista la imagen del producto -->
+    <img id="iavatar" class="foto-grupo" src="{% static '/img/your-music-grupo.svg' %}" title="Imagen de ojeador por defeto"> {% endif %}
+    <a href="{% url 'chat:contactar' pk 'ojeador' %}">
+        <input class="btn btn-black" type="submit" value="Contactar">
+    </a>
+</div>
+<div class="estilos">
+    <div>
+        <h3>Géneros musicales</h3>
+    </div>
+    {% for genero in generos %}
+    <div>{{genero}}</div> {% endfor %}
+</div>
+<div class="informacion">
+    <div>
+        <h3>Información</h3>
+    </div>
+    <div>{{ojeador.descripcion}}</div>
+    <div class="provincia"><span>Tipo de ojeador: </span>{{ojeador.tipo_ojeador}}</div>
+    <div class="provincia"><span>Provincia: </span>{{ojeador.provincia_origen}}</div>
+</div>
+<div>
+    <h3 class="tituloh3">Redes Sociales</h3>
+</div>
+<div class="redes-sociales">
+    {% if ojeador.twitter %}
+    <div><i class="fab fa-twitter-square"></i></div>
+    <div>{{ojeador.twitter}}</div>
+    {% endif %} {% if ojeador.instagram %}
+    <div><i class="fab fa-instagram-square"></i></div>
+    <div><a href="{{ojeador.instagram}}">{{ojeador.instagram}}</a></div>
+    {% endif %} {% if ojeador.facebook %}
+    <div><i class="fab fa-facebook-square"></i></div>
+    <div><a href="{{ojeador.facebook}}" target="_blank">{{ojeador.facebook}}</a></div>
+
+    {% endif %} {% if ojeador.web %}
+    <div><i class="fas fa-link"></i></div>
+    <div><a href="{{ojeador.web}}" target="_blank">{{ojeador.web}}</a></div>
+
+    {% endif %} {% if ojeador.email_profile %}
+    <div><i class="fas fa-envelope"></i></div>
+    <div><a href="mailto:{{ojeador.email_profile}}">{{ojeador.email_profile}}</a></div>
+    {% endif %}
+</div>
+
+{% if noticias %}
+<div class="noticias-grupo">
+    <div>
+        <h3>Últimas noticias</h3>
+    </div>
+    <div id="lista-noticias">
+        {% for n in noticias %}
+        <div class="noticia-extracto">
+            <div class="titulo-noticia">{{n.title}}</div>
+            <div class="noticia-entradilla">{{n.descripcion}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- TODO2 Si hay sólo 3 vídeos o menos no debe mostrarse (hidden),
+    si no se pone directamente saltan errores en consola al faltarel id.-->
+    <div class="ver-mas" id="verMasNoticias">Ver más</div>
+</div>
+{% else %}
+<div id="lista-noticias"></div>
+<div id="verMasNoticias"></div>
+{% endif %} {% endblock %}

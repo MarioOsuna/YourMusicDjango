@@ -1,0 +1,37 @@
+{% extends "base_gral.html" %} {% block content %} {% load static %}
+<script src="{% static 'js/post_choose.js' %}"></script>
+
+<div class="principal">
+    <h2>Foro: {{tema.title}}</h2>
+    <div class="foro-descripcion">{{tema.descripcion}}</div>
+    {% for r in tema.post_foro.all %}
+    <div class="post-general">
+        <div class="post-titulo"><a href="{% url 'foro:post_mensajes' r.id %}">{{r}}</a></div>
+        <div class="post-info">
+            <!-- TODO2 Aquí hay que extraer los datos del nombre del usuario, cantidad de mensajes y fecha -->
+            <div class="post-autor texto-reducido">{{r.autor_post}}</div>
+            <div class="post-num-mensajes texto-reducido">Mensajes: {{r.mensajes_post.count }}</div>
+            <div class="post-fecha-ultimo-mensaje texto-reducido">{{r.updated_at.day|stringformat:"02d"}}/{{r.updated_at.month|stringformat:"02d"}}/{{r.updated_at.year}} - {{r.updated_at.hour}}:{{r.updated_at.minute}}</div>
+        </div>
+        <div class="post-descripcion-seccion">{{r.descripcion|slice:":160"}}...</div>
+    </div>
+    {% endfor %} {% include "partials/pagination.html" with page_obj=tema %} {% if logueado %}
+
+    <div class="formulario-mensajes">
+        <div class="titulo-noticia">Añadir nuevo Post</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="usuario-mensaje">Título:</div>
+            <div><input class="input-mensajes" type="text" placeholder="Título" name="title" id="titMensaje"></div>
+
+            <div class="usuario-mensaje">Mensaje:</div>
+            <div><textarea class="input-mensajes" name="text" placeholder="Descripción del post..." id="text" cols="30" rows="10"></textarea></div>
+            <div><input class="btn btn-black" type="submit" value="Enviar" id="enviarMensaje"></div>
+        </form>
+
+
+    </div>
+    {% else %}
+    <div><a href="{% url 'login' %}"><button class="btn btn-black"  value="Login" >Login</button></a></div>
+
+    {% endif %} {% endblock %}
